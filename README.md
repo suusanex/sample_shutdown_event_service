@@ -1,0 +1,2 @@
+# sample_shutdown_event_service
+SERVICE_CONTROL_PRESHUTDOWNをC#のサービスで処理するサンプル
