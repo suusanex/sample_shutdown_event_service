@@ -61,33 +61,8 @@ namespace sample_shutdown_event_service_fw
         }
 
 
-        private AdvApi32.SERVICE_STATUS m_ServiceStatus = new AdvApi32.SERVICE_STATUS();
-
-
         protected override void OnStart(string[] args)
         {
-
-            try
-            {
-
-
-                var ret = AdvApi32.RegisterServiceCtrlHandlerEx(ServiceName, ServiceCtrlHandlerEx, IntPtr.Zero);
-                if (ret == IntPtr.Zero)
-                {
-                    var win32Err = Marshal.GetLastWin32Error();
-                    m_Log.Warn($"RegisterServiceCtrlHandlerEx Fail, Win32Err=0x{win32Err:X}");
-                }
-                else
-                {
-                    m_Log.Info("RegisterServiceCtrlHandlerEx Success");
-                }
-            }
-            catch (Exception e)
-            {
-                m_Log.Warn($"RegisterServiceCtrlHandlerEx Exception, {e}");
-            }
-
-
 
             try
             {
@@ -114,11 +89,17 @@ namespace sample_shutdown_event_service_fw
 
         }
 
-        private Win32ErrorCode ServiceCtrlHandlerEx(AdvApi32.ServiceControl dwcontrol, uint dweventtype, IntPtr lpeventdata, IntPtr lpcontext)
+        protected override void OnSessionChange(SessionChangeDescription changeDescription)
         {
-            m_Log.Info($"{dwcontrol}, {dweventtype}");
+            m_Log.Info($"{changeDescription.Reason}");
+            base.OnSessionChange(changeDescription);
+        }
 
-            switch (dwcontrol)
+        protected override void OnCustomCommand(int command)
+        {
+            m_Log.Info($"{command}");
+
+            switch ((AdvApi32.ServiceControl)command)
             {
                 case AdvApi32.ServiceControl.SERVICE_CONTROL_PRESHUTDOWN:
 
@@ -137,13 +118,13 @@ namespace sample_shutdown_event_service_fw
                             throw new Exception($"SetServiceStatus(SERVICE_STOP_PENDING), Fail, Win32Err=0x{win32Err:X}");
                         }
 
-                        m_Log.Info($"{dwcontrol}, {dweventtype} Wait Start");
-                        for (int i = 0; i < 5; i++)
+                        m_Log.Info($"Test Wait Start");
+                        for (int i = 0; i < 80; i++)
                         {
-                            Thread.Sleep(TimeSpan.FromSeconds(10));
-                            m_Log.Info($"{dwcontrol}, {dweventtype} Wait {i * 10}[s]");
+                            Thread.Sleep(TimeSpan.FromSeconds(1));
+                            m_Log.Info($"Test Wait {i}[s]");
                         }
-                        m_Log.Info($"{dwcontrol}, {dweventtype} Wait End");
+                        m_Log.Info($"Test Wait End");
 
 
                         status.dwCurrentState = AdvApi32.ServiceState.SERVICE_STOPPED;
@@ -154,16 +135,16 @@ namespace sample_shutdown_event_service_fw
                             throw new Exception($"SetServiceStatus(SERVICE_STOPPED), Fail, Win32Err=0x{win32Err:X}");
                         }
 
-                        return Win32ErrorCode.ERROR_SUCCESS;
+
                     }
                     catch (Exception e)
                     {
                         m_Log.Warn($"SERVICE_CONTROL_PRESHUTDOWN Fail, {e}");
-                        return Win32ErrorCode.ERROR_CALL_NOT_IMPLEMENTED;
                     }
+
+                    break;
             }
 
-            return Win32ErrorCode.ERROR_CALL_NOT_IMPLEMENTED;
         }
 
         protected override void OnStop()

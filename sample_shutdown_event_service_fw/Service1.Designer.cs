@@ -31,6 +31,7 @@
             // 
             // SampleFWService
             // 
+            this.CanHandleSessionChangeEvent = true;
             this.ServiceName = "SampleFWService";
 
         }
