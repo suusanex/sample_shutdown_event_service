@@ -5,6 +5,8 @@ VisualStudioVersion = 17.1.32407.343
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "sample_shutdown_event_service_fw", "sample_shutdown_event_service_fw\sample_shutdown_event_service_fw.csproj", "{328B63C4-B962-43FB-A2AB-AFC5F5385890}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "sample_shutdown_event_service_worker", "sample_shutdown_event_service_worker\sample_shutdown_event_service_worker.csproj", "{F13A59B3-4528-4742-ADD0-F5CBAAA43349}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -15,6 +17,10 @@ Global
 		{328B63C4-B962-43FB-A2AB-AFC5F5385890}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{328B63C4-B962-43FB-A2AB-AFC5F5385890}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{328B63C4-B962-43FB-A2AB-AFC5F5385890}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F13A59B3-4528-4742-ADD0-F5CBAAA43349}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F13A59B3-4528-4742-ADD0-F5CBAAA43349}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F13A59B3-4528-4742-ADD0-F5CBAAA43349}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F13A59B3-4528-4742-ADD0-F5CBAAA43349}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
